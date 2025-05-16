@@ -24,10 +24,20 @@ add :: CInt -> CInt -> CInt
 add = (+)
 
 
+-- | Subtract the second integer from the first
+subtract' :: CInt -> CInt -> CInt
+subtract' = (-)
+
+
 -- | Multiply two integers
 multiply :: CInt -> CInt -> CInt
 multiply = (*)
 
+
+-- | Divide two integers. Returns 0 if dividing by zero.
+divide :: CInt -> CInt -> CInt
+divide _ 0 = 0  -- Handle division by zero
+divide x y = x `div` y
 
 -- | Optimized Fibonacci number calculation using matrix exponentiation (O(log n))
 -- Returns the nth Fibonacci number as Int64 (limited to 2^63-1)
@@ -53,7 +63,9 @@ fib n
 
 -- FFI exports
 foreign export ccall "addFFI" add :: CInt -> CInt -> CInt
+foreign export ccall "subtractFFI" subtract' :: CInt -> CInt -> CInt
 foreign export ccall "multiplyFFI" multiply :: CInt -> CInt -> CInt
+foreign export ccall "divideFFI" divide :: CInt -> CInt -> CInt
 foreign export ccall "fibFFI" fib :: CInt -> Int64
 
 -- | Initialize the Haskell runtime.

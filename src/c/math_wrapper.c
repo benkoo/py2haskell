@@ -6,7 +6,9 @@
 
 // Forward declarations from Haskell module
 extern HsInt addFFI(HsInt x, HsInt y);
+extern HsInt subtractFFI(HsInt x, HsInt y);
 extern HsInt multiplyFFI(HsInt x, HsInt y);
+extern HsInt divideFFI(HsInt x, HsInt y);
 extern int64_t fibFFI(HsInt n);
 
 // Initialize the Haskell runtime
@@ -36,8 +38,17 @@ int32_t c_add(int32_t x, int32_t y) {
     return (int32_t)addFFI((HsInt)x, (HsInt)y);
 }
 
+int32_t c_subtract(int32_t x, int32_t y) {
+    return (int32_t)subtractFFI((HsInt)x, (HsInt)y);
+}
+
 int32_t c_multiply(int32_t x, int32_t y) {
     return (int32_t)multiplyFFI((HsInt)x, (HsInt)y);
+}
+
+int32_t c_divide(int32_t x, int32_t y) {
+    if (y == 0) return 0;  // Handle division by zero in C as well
+    return (int32_t)divideFFI((HsInt)x, (HsInt)y);
 }
 
 // Calculate the nth Fibonacci number

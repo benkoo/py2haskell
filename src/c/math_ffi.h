@@ -16,7 +16,9 @@ void math_ffi_exit(void);
 
 // Math functions
 int32_t c_add(int32_t x, int32_t y);
+int32_t c_subtract(int32_t x, int32_t y);
 int32_t c_multiply(int32_t x, int32_t y);
+int32_t c_divide(int32_t x, int32_t y);
 
 // Calculate the nth Fibonacci number (returns int64_t)
 int64_t c_fib(int32_t n);

@@ -91,8 +91,14 @@ math_lib.math_ffi_exit.restype = None
 math_lib.c_add.argtypes = [c_int32, c_int32]
 math_lib.c_add.restype = c_int32
 
+math_lib.c_subtract.argtypes = [c_int32, c_int32]
+math_lib.c_subtract.restype = c_int32
+
 math_lib.c_multiply.argtypes = [c_int32, c_int32]
 math_lib.c_multiply.restype = c_int32
+
+math_lib.c_divide.argtypes = [c_int32, c_int32]
+math_lib.c_divide.restype = c_int32
 
 math_lib.c_fib.argtypes = [c_int32]
 math_lib.c_fib.restype = c_int64
@@ -102,13 +108,28 @@ try:
     print("Initializing Haskell runtime...")
     math_lib.math_ffi_init()
     
+    # Test basic arithmetic operations
+    x, y = 10, 3
+    
     # Test addition
-    result = math_lib.c_add(5, 3)
-    print(f"5 + 3 = {result}")
+    result = math_lib.c_add(x, y)
+    print(f"{x} + {y} = {result}")
+    
+    # Test subtraction
+    result = math_lib.c_subtract(x, y)
+    print(f"{x} - {y} = {result}")
     
     # Test multiplication
-    result = math_lib.c_multiply(5, 3)
-    print(f"5 * 3 = {result}")
+    result = math_lib.c_multiply(x, y)
+    print(f"{x} * {y} = {result}")
+    
+    # Test division
+    result = math_lib.c_divide(x, y)
+    print(f"{x} / {y} = {result} (integer division)")
+    
+    # Test division by zero handling
+    result = math_lib.c_divide(x, 0)
+    print(f"{x} / 0 = {result} (handled division by zero)"
     
     # Test Fibonacci with timing
     import time
@@ -131,8 +152,11 @@ finally:
 ```
 Loading library from: ./libmathwrapper.dylib
 Initializing Haskell runtime...
-5 + 3 = 8
-5 * 3 = 15
+10 + 3 = 13
+10 - 3 = 7
+10 * 3 = 30
+10 / 3 = 3 (integer division)
+10 / 0 = 0 (handled division by zero)
 fib(10) = 55 (took 0.07 ms)
 fib(20) = 6765 (took 0.01 ms)
 fib(30) = 832040 (took 0.01 ms)
@@ -217,6 +241,14 @@ fib( 100) = 354,224,848,179,262,000,000 (tried 5,000 ns)
 - **Returns**: `x + y` as a 32-bit integer
 - **Thread Safety**: Thread-safe after initialization
 
+#### `c_subtract(int32_t x, int32_t y)`
+- **Description**: Subtracts the second integer from the first.
+- **Parameters**:
+  - `x`: First integer
+  - `y`: Second integer to subtract
+- **Returns**: `x - y` as a 32-bit integer
+- **Thread Safety**: Thread-safe after initialization
+
 #### `c_multiply(int32_t x, int32_t y)`
 - **Description**: Multiplies two 32-bit integers.
 - **Parameters**:
@@ -224,6 +256,15 @@ fib( 100) = 354,224,848,179,262,000,000 (tried 5,000 ns)
   - `y`: Second integer
 - **Returns**: `x * y` as a 32-bit integer
 - **Thread Safety**: Thread-safe after initialization
+
+#### `c_divide(int32_t x, int32_t y)`
+- **Description**: Divides the first integer by the second using integer division.
+- **Parameters**:
+  - `x`: Numerator
+  - `y`: Denominator (must not be zero)
+- **Returns**: `x / y` as a 32-bit integer (truncated toward zero)
+- **Thread Safety**: Thread-safe after initialization
+- **Error Handling**: Returns 0 if `y` is 0 to prevent division by zero
 
 #### `c_fib(int32_t n)`
 - **Description**: Calculates the nth Fibonacci number using an O(log n) algorithm.
