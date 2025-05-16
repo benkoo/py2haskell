@@ -1,0 +1,67 @@
+# Haskell build artifacts
+dist/
+dist-newstyle/
+.stack-work/
+*.hi
+*.o
+*.dyn_hi
+*.dyn_o
+*.prof
+*.eventlog
+*.tix
+.hpc/
+.hie/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Cabal
+cabal.project.local
+cabal.project.local.*
+
+# Stack
+.stack-work/
+
+# Local .stack-work
+**/local/
+
+# Executables
+*.exe
+
+# Temporary files
+*~
+*.swp
+*.swo
+*#
+
+# Logs
+*.log
+
+# System Files
+.DS_Store
+Thumbs.db
