@@ -10,11 +10,8 @@
 --
 module MathFFI where
 
-import Foreign.C.Types
 import Foreign.C.Types (CInt(..))
-import Foreign.C.String (CString, newCString)
 import Data.Int (Int64)
-import Data.Bits (shiftR, (.&.))
 
 
 
