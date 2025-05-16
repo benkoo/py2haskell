@@ -39,27 +39,17 @@ divide :: CInt -> CInt -> CInt
 divide _ 0 = 0  -- Handle division by zero
 divide x y = x `div` y
 
--- | Optimized Fibonacci number calculation using matrix exponentiation (O(log n))
+-- | Fibonacci number calculation
 -- Returns the nth Fibonacci number as Int64 (limited to 2^63-1)
+-- Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8, 13, ...
 fib :: CInt -> Int64
 fib n
     | n < 0 = 0
-    | n == 0 = 0
-    | n == 1 = 1
-    | otherwise = fst (fib' (fromIntegral (n - 1) :: Int64))
+    | otherwise = fib' (fromIntegral n) 0 1
   where
-    -- Fast doubling algorithm for Int64
-    fib' :: Int64 -> (Int64, Int64)
-    fib' m
-        | m == 0 = (0, 1)
-        | m == 1 = (1, 1)
-        | otherwise =
-            let (a, b) = fib' (shiftR m 1)  -- m `div` 2
-                c = a * (2 * b - a)
-                d = a * a + b * b
-            in if m .&. 1 == 0  -- even m
-                then (c, d)
-                else (d, c + d)
+    fib' :: Int64 -> Int64 -> Int64 -> Int64
+    fib' 0 a _ = a
+    fib' n a b = fib' (n - 1) b (a + b)
 
 -- FFI exports
 foreign export ccall "addFFI" add :: CInt -> CInt -> CInt
